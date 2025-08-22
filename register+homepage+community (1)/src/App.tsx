@@ -203,7 +203,7 @@ function App() {
   if (authState === 'login') {
     return (
       <LoginScreen
-        onLoginComplete={handleLoginComplete}
+        onComplete={handleLoginComplete}
         onGoToRegistration={handleGoToRegistration}
       />
     )
@@ -213,7 +213,7 @@ function App() {
   if (authState === 'registration') {
     return (
       <RegistrationScreen
-        onRegistrationComplete={handleRegistrationComplete}
+        onComplete={handleRegistrationComplete}
         onBackToLogin={handleBackToLogin}
       />
     )
