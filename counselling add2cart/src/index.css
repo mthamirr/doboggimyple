@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    font-family: 'Orbitron', monospace;
+  }
+  
+  body {
+    font-family: 'Orbitron', monospace;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    background-color: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+  }
+}
+
+@layer components {
+  .pixel-font {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  
+  /* Gameboy-style button effects with exact Pantone colors */
+  button {
+    transition: all 0.1s ease;
+    image-rendering: pixelated;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+  
+  button:active {
+    transform: translateY(1px);
+    filter: brightness(0.9);
+  }
+  
+  /* Pixelated input styles with exact colors */
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    filter: brightness(1.1);
+    border-color: #4338CA; /* 2725 C - Blue Violet */
+  }
+  
+  /* Custom scrollbar with gameboy theme using exact colors */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+    border-radius: 0;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4338CA; /* 2725 C - Blue Violet */
+  }
+  
+  /* Pixelated card effects */
+  .product-card {
+    transition: all 0.2s ease;
+    image-rendering: pixelated;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-4px);
+    filter: brightness(1.05);
+  }
+  
+  /* Pixelated image rendering */
+  img {
+    image-rendering: pixelated;
+    transition: opacity 0.2s ease;
+  }
+  
+  img:not([src]) {
+    opacity: 0;
+  }
+  
+  /* Gameboy-style select dropdown with exact colors */
+  select {
+    background-image: none;
+    image-rendering: pixelated;
+    background-color: #FF5722; /* 17-1363 TSX - Exuberant Orange */
+    color: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+    border-color: #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+  }
+  
+  /* Pixelated checkbox styling with exact colors */
+  input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 4px solid #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+    background: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+    position: relative;
+    cursor: pointer;
+    image-rendering: pixelated;
+  }
+  
+  input[type="checkbox"]:checked {
+    background: #4338CA; /* 2725 C - Blue Violet */
+    border-color: #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+  }
+  
+  input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -6px;
+    left: 0px;
+    color: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+    font-weight: 900;
+    font-size: 14px;
+    font-family: 'Orbitron', monospace;
+  }
+  
+  /* Radio button styling with exact colors */
+  input[type="radio"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 4px solid #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+    background: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    image-rendering: pixelated;
+  }
+  
+  input[type="radio"]:checked {
+    background: #4338CA; /* 2725 C - Blue Violet */
+    border-color: #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+  }
+  
+  input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 4px;
+    height: 4px;
+    background: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+    border-radius: 50%;
+  }
+  
+  /* Gameboy-style range slider with exact colors */
+  input[type="range"] {
+    appearance: none;
+    height: 8px;
+    background: #F5F5F5; /* 11-4201 TPG - Cloud Dancer */
+    border: 2px solid #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+    outline: none;
+    image-rendering: pixelated;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #4338CA; /* 2725 C - Blue Violet */
+    border: 2px solid #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+    cursor: pointer;
+    image-rendering: pixelated;
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #4338CA; /* 2725 C - Blue Violet */
+    border: 2px solid #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+    cursor: pointer;
+    image-rendering: pixelated;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .max-w-md {
+    max-width: 100%;
+  }
+}
+
+/* Pixelated animation for page transitions */
+@keyframes pixelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(1px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.fade-in {
+  animation: pixelFadeIn 0.3s ease-out;
+}
+
+/* Gameboy-style loading states with exact colors */
+.loading {
+  background: linear-gradient(90deg, #F5F5F5 25%, #C4D600 50%, #F5F5F5 75%);
+  background-size: 200% 100%;
+  animation: pixelLoading 1s infinite;
+  image-rendering: pixelated;
+}
+
+@keyframes pixelLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Gameboy button press effects */
+.btn-press:active {
+  transform: scale(0.95);
+  filter: brightness(0.8);
+}
+
+/* Pixelated transitions for all interactive elements */
+* {
+  transition: color 0.1s ease, background-color 0.1s ease, border-color 0.1s ease, transform 0.1s ease, filter 0.1s ease;
+  image-rendering: pixelated;
+}
+
+/* Focus visible for accessibility with exact Pantone colors */
+button:focus-visible, 
+input:focus-visible, 
+select:focus-visible, 
+textarea:focus-visible {
+  outline: 4px solid #4338CA; /* 2725 C - Blue Violet */
+  outline-offset: 2px;
+}
+
+/* Pixelated text rendering */
+body {
+  text-rendering: geometricPrecision;
+  font-feature-settings: normal;
+  font-kerning: none;
+}
+
+/* High contrast mode support with exact Pantone colors */
+@media (prefers-contrast: high) {
+  button, input, select, textarea {
+    border-width: 4px;
+    border-color: #1A1A1A; /* 20-0199 TPM - Darkest Hour */
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Additional color utilities for exact Pantone matching */
+.bg-pantone-sun-glare { background-color: #C4D600; } /* 13-0663 TSX */
+.bg-pantone-exuberant-orange { background-color: #FF5722; } /* 17-1363 TSX */
+.bg-pantone-blue-violet { background-color: #4338CA; } /* 2725 C */
+.bg-pantone-cloud-dancer { background-color: #F5F5F5; } /* 11-4201 TPG */
+.bg-pantone-darkest-hour { background-color: #1A1A1A; } /* 20-0199 TPM */
+
+.text-pantone-sun-glare { color: #C4D600; } /* 13-0663 TSX */
+.text-pantone-exuberant-orange { color: #FF5722; } /* 17-1363 TSX */
+.text-pantone-blue-violet { color: #4338CA; } /* 2725 C */
+.text-pantone-cloud-dancer { color: #F5F5F5; } /* 11-4201 TPG */
+.text-pantone-darkest-hour { color: #1A1A1A; } /* 20-0199 TPM */
+
+.border-pantone-sun-glare { border-color: #C4D600; } /* 13-0663 TSX */
+.border-pantone-exuberant-orange { border-color: #FF5722; } /* 17-1363 TSX */
+.border-pantone-blue-violet { border-color: #4338CA; } /* 2725 C */
+.border-pantone-cloud-dancer { border-color: #F5F5F5; } /* 11-4201 TPG */
+.border-pantone-darkest-hour { border-color: #1A1A1A; } /* 20-0199 TPM */
