@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import LoadingScreen from './components/LoadingScreen'
-import LoginPage from './components/LoginPage'
-import RegistrationPage from './components/RegistrationPage'
+import LoginScreen from './components/LoginScreen'
+import RegistrationScreen from './components/RegistrationScreen'
 import HomePage from './components/HomePage'
 import CommunityBoard from './components/CommunityBoard'
 import PostDetail from './components/PostDetail'
@@ -202,7 +202,7 @@ function App() {
   // Login screen
   if (authState === 'login') {
     return (
-      <LoginPage
+      <LoginScreen
         onLoginComplete={handleLoginComplete}
         onGoToRegistration={handleGoToRegistration}
       />
@@ -212,7 +212,7 @@ function App() {
   // Registration screen
   if (authState === 'registration') {
     return (
-      <RegistrationPage
+      <RegistrationScreen
         onRegistrationComplete={handleRegistrationComplete}
         onBackToLogin={handleBackToLogin}
       />
