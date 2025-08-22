@@ -1,72 +1,54 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import LoadingScreen from './components/LoadingScreen'
-import RegistrationScreen from './components/RegistrationScreen'
-import LoginScreen from './components/LoginScreen'
+import LoginPage from './components/LoginPage'
+import RegistrationPage from './components/RegistrationPage'
 import HomePage from './components/HomePage'
 import CommunityBoard from './components/CommunityBoard'
-import PostDetailModal from './components/PostDetailModal'
-import BookmarksPage from './components/BookmarksPage'
+import PostDetail from './components/PostDetail'
 import NewPostModal from './components/NewPostModal'
+import BookmarksPage from './components/BookmarksPage'
+
+// Import new app components
+import MatchingApp from './components/MatchingApp'
+import MessagingApp from './components/MessagingApp'
+import ProfileApp from './components/ProfileApp'
+import CounsellingCartApp from './components/CounsellingCartApp'
+
 import { Post } from './types'
-import { generateMockPosts } from './data/mockPosts'
 
 type AuthState = 'loading' | 'login' | 'registration' | 'authenticated'
-type AppView = 'home' | 'board' | 'bookmarks'
+type AppView = 'home' | 'board' | 'bookmarks' | 'matching' | 'messages' | 'profile' | 'counselling' | 'cart'
 
 function App() {
   const [authState, setAuthState] = useState<AuthState>('loading')
   const [currentView, setCurrentView] = useState<AppView>('home')
-  const [currentBoardType, setCurrentBoardType] = useState<string>('batch')
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null)
-  const [showNewPostModal, setShowNewPostModal] = useState(false)
-  const [posts, setPosts] = useState<{[key: string]: Post[]}>({})
-  const [bookmarkedPosts, setBookmarkedPosts] = useState<Post[]>([])
-  
   const [currentUser, setCurrentUser] = useState<string>('')
   const [userGender, setUserGender] = useState<string>('')
   const [userAvatar, setUserAvatar] = useState<string>('')
+  const [currentBoardType, setCurrentBoardType] = useState<string>('')
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null)
+  const [showNewPostModal, setShowNewPostModal] = useState(false)
 
-  useEffect(() => {
-    const boardTypes = ['batch', 'major', 'fashion', 'religion', 'music', 'movie', 'sports', 'mens', 'womens', 'announcements']
-    const initialPosts: {[key: string]: Post[]} = {}
-    
-    boardTypes.forEach(boardType => {
-      initialPosts[boardType] = generateMockPosts(boardType)
-    })
-    
-    setPosts(initialPosts)
-  }, [])
+  // Existing posts data and functions (keep your existing posts logic here)
+  const [posts, setPosts] = useState<{ [key: string]: Post[] }>({
+    announcements: [],
+    batch: [],
+    anonymous: [],
+    mens: [],
+    womens: []
+  })
 
-  const getBoardTitle = (boardType: string) => {
-    switch (boardType) {
-      case 'batch': return 'BATCH BOARD'
-      case 'major': return 'MAJOR BOARD'
-      case 'fashion': return 'FASHION BOARD'
-      case 'religion': return 'RELIGION BOARD'
-      case 'music': return 'MUSIC BOARD'
-      case 'movie': return 'MOVIE BOARD'
-      case 'sports': return 'SPORTS BOARD'
-      case 'mens': return "MEN'S LOUNGE"
-      case 'womens': return "WOMEN'S LOUNGE"
-      case 'announcements': return 'ANNOUNCEMENTS'
-      default: return 'COMMUNITY BOARD'
-    }
+  const [bookmarkedPosts, setBookmarkedPosts] = useState<Post[]>([])
+
+  // Navigation handlers
+  const handleNavigateToApp = (appName: AppView) => {
+    setCurrentView(appName)
+    setSelectedPost(null)
   }
 
-  const getSubboards = (boardType: string) => {
-    switch (boardType) {
-      case 'batch': return ['B21', 'B22', 'B23', 'B24', 'B25']
-      case 'major': return ['IT', 'ENGINEERING', 'LIFE SCIENCE', 'ANIMATION', 'ARTS', 'BUSINESS']
-      case 'fashion': return ['MENS FASHION', 'WOMENS FASHION']
-      case 'religion': return ['ISLAM', 'CHRISTIAN', 'BUDDHA', 'HINDU']
-      case 'music': return ['POP', 'ROCK', 'KPOP', 'JPOP', 'INDIE', 'JAZZ', 'CLASSICAL']
-      case 'movie': return ['THRILLER', 'COMEDY', 'ROMCOM', 'ROMANCE', 'FAMILY', 'ACTION', 'HORROR', 'DRAMA']
-      case 'sports': return ['WATER SPORT', 'LAND SPORT', 'TRACK & FIELD', 'E-SPORTS', 'FITNESS', 'MARTIAL ARTS']
-      case 'mens': return ['LIFESTYLE', 'GROOMING', 'FITNESS', 'CAREER', 'RELATIONSHIPS']
-      case 'womens': return ['LIFESTYLE', 'BEAUTY', 'FITNESS', 'CAREER', 'RELATIONSHIPS']
-      case 'announcements': return ['ACADEMIC', 'EVENTS', 'FACILITIES', 'GENERAL', 'URGENT']
-      default: return []
-    }
+  const handleBackToHome = () => {
+    setCurrentView('home')
+    setSelectedPost(null)
   }
 
   // Auth handlers
@@ -96,13 +78,7 @@ function App() {
     setAuthState('login')
   }
 
-  // Centralized home navigation handler
-  const handleBackToHome = () => {
-    setCurrentView('home')
-    setSelectedPost(null)
-  }
-
-  // App navigation handlers
+  // Community functions (keep your existing logic)
   const handleNavigateToBoard = (boardType: string) => {
     if (boardType === 'mens' && userGender !== 'male') {
       return
@@ -110,7 +86,6 @@ function App() {
     if (boardType === 'womens' && userGender !== 'female') {
       return
     }
-
     setCurrentBoardType(boardType)
     setCurrentView('board')
   }
@@ -131,265 +106,202 @@ function App() {
     const newPost: Post = {
       id: `${currentBoardType}-${Date.now()}`,
       author: currentBoardType === 'announcements' ? 'Admin' : 'Anonymous',
-      avatar: currentBoardType === 'announcements' ? '👨‍💼' : '🎮',
+      avatar: currentBoardType === 'announcements' ? '📢' : '👤',
       title: newPostData.title,
       content: newPostData.content,
-      timestamp: new Date().toLocaleString('en-GB', { 
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      }).replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2})/, '$3.$2.$1 $4:$5'),
-      images: newPostData.images,
+      timestamp: new Date().toLocaleString(),
       reactions: { thumbsUp: 0, thumbsDown: 0, heart: 0 },
-      comments: 0,
-      batch: newPostData.batch || 'N/A',
+      comments: [],
+      images: newPostData.images,
       isBookmarked: false,
-      userReaction: null
+      batch: newPostData.batch || 'N/A'
     }
 
-    setPosts(prevPosts => ({
-      ...prevPosts,
-      [currentBoardType]: [newPost, ...(prevPosts[currentBoardType] || [])]
+    setPosts(prev => ({
+      ...prev,
+      [currentBoardType]: [newPost, ...prev[currentBoardType]]
     }))
 
     setShowNewPostModal(false)
   }
 
   const handleReaction = (postId: string, reactionType: string) => {
-    setPosts(prevPosts => {
-      const updatedPosts = { ...prevPosts }
-      const boardPosts = updatedPosts[currentBoardType] || []
-      
-      updatedPosts[currentBoardType] = boardPosts.map(post => {
-        if (post.id === postId) {
-          const newReactions = { ...post.reactions }
-          const wasActive = post.userReaction === reactionType
-          
-          if (post.userReaction && post.userReaction in newReactions) {
-            const currentCount = newReactions[post.userReaction as keyof typeof newReactions] || 0
-            newReactions[post.userReaction as keyof typeof newReactions] = Math.max(0, currentCount - 1)
+    setPosts(prev => {
+      const updatedPosts = { ...prev }
+      Object.keys(updatedPosts).forEach(boardType => {
+        updatedPosts[boardType] = updatedPosts[boardType].map(post => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              reactions: {
+                ...post.reactions,
+                [reactionType]: post.reactions[reactionType] + 1
+              }
+            }
           }
-          
-          if (!wasActive && reactionType in newReactions) {
-            const currentCount = newReactions[reactionType as keyof typeof newReactions] || 0
-            newReactions[reactionType as keyof typeof newReactions] = currentCount + 1
-          }
-          
-          return {
-            ...post,
-            reactions: newReactions,
-            userReaction: wasActive ? null : reactionType
-          }
-        }
-        return post
+          return post
+        })
       })
-      
       return updatedPosts
     })
-
-    setBookmarkedPosts(prevBookmarked => 
-      prevBookmarked.map(post => {
-        if (post.id === postId) {
-          const newReactions = { ...post.reactions }
-          const wasActive = post.userReaction === reactionType
-          
-          if (post.userReaction && post.userReaction in newReactions) {
-            const currentCount = newReactions[post.userReaction as keyof typeof newReactions] || 0
-            newReactions[post.userReaction as keyof typeof newReactions] = Math.max(0, currentCount - 1)
-          }
-          
-          if (!wasActive && reactionType in newReactions) {
-            const currentCount = newReactions[reactionType as keyof typeof newReactions] || 0
-            newReactions[reactionType as keyof typeof newReactions] = currentCount + 1
-          }
-          
-          return {
-            ...post,
-            reactions: newReactions,
-            userReaction: wasActive ? null : reactionType
-          }
-        }
-        return post
-      })
-    )
   }
 
   const handleBookmark = (postId: string) => {
-    const currentBoardPosts = posts[currentBoardType] || []
-    const post = currentBoardPosts.find(p => p.id === postId)
-    
-    if (!post) return
-
-    setPosts(prevPosts => {
-      const updatedPosts = { ...prevPosts }
-      updatedPosts[currentBoardType] = (updatedPosts[currentBoardType] || []).map(p => 
-        p.id === postId ? { ...p, isBookmarked: !p.isBookmarked } : p
-      )
+    setPosts(prev => {
+      const updatedPosts = { ...prev }
+      Object.keys(updatedPosts).forEach(boardType => {
+        updatedPosts[boardType] = updatedPosts[boardType].map(post => {
+          if (post.id === postId) {
+            const updatedPost = { ...post, isBookmarked: !post.isBookmarked }
+            if (updatedPost.isBookmarked) {
+              setBookmarkedPosts(prevBookmarks => [...prevBookmarks, updatedPost])
+            } else {
+              setBookmarkedPosts(prevBookmarks => prevBookmarks.filter(p => p.id !== postId))
+            }
+            return updatedPost
+          }
+          return post
+        })
+      })
       return updatedPosts
-    })
-
-    setBookmarkedPosts(prevBookmarked => {
-      const isCurrentlyBookmarked = prevBookmarked.some(p => p.id === postId)
-      
-      if (isCurrentlyBookmarked) {
-        return prevBookmarked.filter(p => p.id !== postId)
-      } else {
-        return [...prevBookmarked, { ...post, isBookmarked: true }]
-      }
     })
   }
 
   const handleShare = (post: Post) => {
-    const shareText = `Check out this post: "${post.title}" on ${getBoardTitle(currentBoardType)}`
-    
     if (navigator.share) {
       navigator.share({
         title: post.title,
-        text: shareText,
+        text: post.content,
         url: window.location.href
       })
     } else {
-      navigator.clipboard.writeText(`${shareText} - ${window.location.href}`)
+      navigator.clipboard.writeText(`${post.title}\n${post.content}\n${window.location.href}`)
     }
   }
 
   const handleReport = (postId: string, reason: string) => {
-    console.log(`Reporting post ${postId} for: ${reason}`)
+    console.log(`Reported post ${postId} for: ${reason}`)
   }
 
-  // RESTORED: Post deletion functionality for authors
   const handleDeletePost = (postId: string) => {
-    const currentBoardPosts = posts[currentBoardType] || []
-    const post = currentBoardPosts.find(p => p.id === postId)
-    
-    // Allow deletion if post author is Anonymous (user's posts)
-    if (post && post.author === 'Anonymous') {
-      setPosts(prevPosts => ({
-        ...prevPosts,
-        [currentBoardType]: (prevPosts[currentBoardType] || []).filter(p => p.id !== postId)
-      }))
-
-      setBookmarkedPosts(prevBookmarked => 
-        prevBookmarked.filter(p => p.id !== postId)
-      )
-    }
-  }
-
-  const handleUpdateCommentCount = (postId: string, newCount: number) => {
-    setPosts(prevPosts => {
-      const updatedPosts = { ...prevPosts }
-      updatedPosts[currentBoardType] = (updatedPosts[currentBoardType] || []).map(post => 
-        post.id === postId ? { ...post, comments: newCount } : post
-      )
+    setPosts(prev => {
+      const updatedPosts = { ...prev }
+      Object.keys(updatedPosts).forEach(boardType => {
+        updatedPosts[boardType] = updatedPosts[boardType].filter(post => post.id !== postId)
+      })
       return updatedPosts
     })
-
-    setBookmarkedPosts(prevBookmarked => 
-      prevBookmarked.map(post => 
-        post.id === postId ? { ...post, comments: newCount } : post
-      )
-    )
+    setBookmarkedPosts(prev => prev.filter(post => post.id !== postId))
   }
 
-  const handleViewBookmarks = () => {
-    setCurrentView('bookmarks')
-  }
-
-  const currentBoardPosts = posts[currentBoardType] || []
-
-  // Render auth screens
+  // Loading screen
   if (authState === 'loading') {
     return <LoadingScreen onComplete={handleLoadingComplete} />
   }
 
+  // Login screen
   if (authState === 'login') {
     return (
-      <LoginScreen 
-        onComplete={handleLoginComplete}
+      <LoginPage
+        onLoginComplete={handleLoginComplete}
         onGoToRegistration={handleGoToRegistration}
       />
     )
   }
 
+  // Registration screen
   if (authState === 'registration') {
     return (
-      <RegistrationScreen 
-        onComplete={handleRegistrationComplete}
+      <RegistrationPage
+        onRegistrationComplete={handleRegistrationComplete}
         onBackToLogin={handleBackToLogin}
       />
     )
   }
 
-  // Render main app
+  // Main App Routing
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case 'matching':
+        return <MatchingApp onBackToHome={handleBackToHome} />
+      case 'messages':
+        return <MessagingApp onBackToHome={handleBackToHome} />
+      case 'profile':
+        return <ProfileApp onBackToHome={handleBackToHome} />
+      case 'counselling':
+      case 'cart':
+        return <CounsellingCartApp onBackToHome={handleBackToHome} />
+      case 'board':
+        return (
+          <CommunityBoard
+            boardType={currentBoardType}
+            posts={posts[currentBoardType] || []}
+            onPostClick={handlePostClick}
+            onBackToHome={handleBackToHome}
+            onNewPost={handleNewPost}
+            onReaction={handleReaction}
+            onBookmark={handleBookmark}
+            onShare={handleShare}
+            onReport={handleReport}
+            onDeletePost={handleDeletePost}
+            currentUser={currentUser}
+            userGender={userGender}
+          />
+        )
+      case 'bookmarks':
+        return (
+          <BookmarksPage
+            bookmarkedPosts={bookmarkedPosts}
+            onPostClick={handlePostClick}
+            onBackToBoard={() => setCurrentView('board')}
+            onReaction={handleReaction}
+            onBookmark={handleBookmark}
+            onShare={handleShare}
+            onReport={handleReport}
+            onDeletePost={handleDeletePost}
+            currentUser={currentUser}
+            onBackToHome={handleBackToHome}
+          />
+        )
+      case 'home':
+      default:
+        return (
+          <HomePage
+            currentUser={currentUser}
+            userGender={userGender}
+            userAvatar={userAvatar}
+            onNavigateToBoard={handleNavigateToBoard}
+            onNavigateToApp={handleNavigateToApp}
+            onNavigateToMessages={() => handleNavigateToApp('messages')}
+          />
+        )
+    }
+  }
+
   return (
-    <div className="App">
-      {currentView === 'home' && (
-        <HomePage 
-          onNavigateToBatch={() => handleNavigateToBoard('batch')}
-          onNavigateToBoard={handleNavigateToBoard}
-          userGender={userGender}
-          userAvatar={userAvatar}
-          userName={currentUser}
-        />
-      )}
+    <div className="min-h-screen">
+      {renderCurrentView()}
       
-      {currentView === 'board' && (
-        <CommunityBoard
-          posts={currentBoardPosts}
-          onPostClick={handlePostClick}
-          onNewPost={handleNewPost}
-          onBackToHome={handleBackToHome}
-          onReaction={handleReaction}
-          onBookmark={handleBookmark}
-          onShare={handleShare}
-          onReport={handleReport}
-          onViewBookmarks={handleViewBookmarks}
-          onDeletePost={handleDeletePost}
-          bookmarkedCount={bookmarkedPosts.length}
-          boardType={currentBoardType}
-          boardTitle={getBoardTitle(currentBoardType)}
-          subboards={getSubboards(currentBoardType)}
-          currentUser={currentUser}
-        />
-      )}
-
-      {currentView === 'bookmarks' && (
-        <BookmarksPage
-          bookmarkedPosts={bookmarkedPosts}
-          onPostClick={handlePostClick}
-          onBackToBoard={() => setCurrentView('board')}
-          onReaction={handleReaction}
-          onBookmark={handleBookmark}
-          onShare={handleShare}
-          onReport={handleReport}
-          onDeletePost={handleDeletePost}
-          currentUser={currentUser}
-          onBackToHome={handleBackToHome}
-        />
-      )}
-
+      {/* Post Detail Modal */}
       {selectedPost && (
-        <PostDetailModal
+        <PostDetail
           post={selectedPost}
           onClose={handleClosePostDetail}
           onReaction={handleReaction}
-          onCommentReaction={() => {}}
+          onBookmark={handleBookmark}
           onShare={handleShare}
           onReport={handleReport}
-          onUpdateCommentCount={handleUpdateCommentCount}
+          onDeletePost={handleDeletePost}
           currentUser={currentUser}
-          boardType={currentBoardType}
         />
       )}
 
+      {/* New Post Modal */}
       {showNewPostModal && (
         <NewPostModal
+          boardType={currentBoardType}
           onClose={() => setShowNewPostModal(false)}
           onSubmit={handleSubmitPost}
-          boardType={currentBoardType}
-          subboards={getSubboards(currentBoardType)}
         />
       )}
     </div>
