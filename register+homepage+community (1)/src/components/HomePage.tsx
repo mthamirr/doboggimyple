@@ -328,7 +328,7 @@ const HomePage: React.FC<HomePageProps> = ({
               <div className="flex justify-between items-center mb-6">
                 <h3 className="pixel-text-lg text-darkest-hour font-black">MESSAGES</h3>
                 <button
-                  onClick={() => setShowMessages(false)}
+                  onClick={onNavigateToMessages}
                   className="w-12 h-12 bg-exuberant-orange pixel-border flex items-center justify-center hover:bg-sun-glare hover:text-darkest-hour transition-none"
                 >
                   <X size={20} className="text-cloud-dancer" />
@@ -373,7 +373,28 @@ const HomePage: React.FC<HomePageProps> = ({
       )}
 
       {/* Bottom Navigation */}
-      <BottomNavigation activeTab="home" />
+      <BottomNavigation 
+        activeTab="home" 
+        onTabClick={(tabId) => {
+          switch(tabId) {
+            case 'cart':
+              onNavigateToApp('cart')
+              break
+            case 'match':
+              onNavigateToApp('matching')
+              break
+            case 'counseling':
+              onNavigateToApp('counselling')
+              break
+            case 'profile':
+              onNavigateToApp('profile')
+              break
+            default:
+              break
+          }
+        }}
+        onHomeClick={() => {}}
+      />
     </div>
   )
 }
