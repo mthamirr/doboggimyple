@@ -3,11 +3,12 @@ import { Bell, Mail, Search, Users, BookOpen, Briefcase, Palette, Church, Music,
 import BottomNavigation from './BottomNavigation'
 
 interface HomePageProps {
-  onNavigateToBatch: () => void
+  currentUser: string
+  userGender: string
+  userAvatar: string
   onNavigateToBoard: (boardType: string) => void
-  userGender?: string
-  userAvatar?: string
-  userName?: string
+  onNavigateToApp: (appName: 'matching' | 'messages' | 'profile' | 'counselling' | 'cart') => void
+  onNavigateToMessages: () => void
 }
 
 const HomePage: React.FC<HomePageProps> = ({ 
