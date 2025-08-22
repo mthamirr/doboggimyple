@@ -12,11 +12,12 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ 
-  onNavigateToBatch, 
-  onNavigateToBoard, 
-  userGender = 'female',
-  userAvatar = '👩‍🎓', // Graduation gown girl
-  userName = 'SITI NURHALIZA' // Malay girl name
+  currentUser,
+  userGender,
+  userAvatar,
+  onNavigateToBoard,
+  onNavigateToApp,
+  onNavigateToMessages
 }) => {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showMessages, setShowMessages] = useState(false)
@@ -186,7 +187,7 @@ const HomePage: React.FC<HomePageProps> = ({
               <span className="text-2xl sm:text-3xl flex-shrink-0">{userAvatar}</span>
               <div className="min-w-0 flex-1">
                 <h1 className="pixel-text-sm sm:pixel-text-lg text-cloud-dancer font-black truncate">WELCOME!</h1>
-                <p className="pixel-text-xs sm:pixel-text text-sun-glare truncate">{userName}</p>
+                <p className="pixel-text-xs sm:pixel-text text-sun-glare truncate">{currentUser}</p>
               </div>
             </div>
             <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
@@ -201,7 +202,7 @@ const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </button>
               <button 
-                onClick={() => setShowMessages(true)}
+                onClick={onNavigateToMessages}
                 className="relative w-10 h-10 sm:w-12 sm:h-12 bg-blue-violet pixel-border flex items-center justify-center hover:bg-sun-glare hover:text-darkest-hour transition-none"
               >
                 <Mail size={16} className="sm:w-5 sm:h-5 text-cloud-dancer" />
