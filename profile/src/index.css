@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Override all text to be bold and pixelated */
+* {
+  font-family: 'Press Start 2P', 'Courier New', monospace !important;
+  font-weight: 900 !important;
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  image-rendering: pixelated !important;
+  image-rendering: -moz-crisp-edges !important;
+  image-rendering: crisp-edges !important;
+  text-rendering: optimizeSpeed !important;
+}
+
+/* Custom colors matching the reference */
+.bg-navy {
+  background-color: #1a2b4a;
+}
+
+.bg-cream {
+  background-color: #f5f5dc;
+}
+
+.bg-lime {
+  background-color: #b9ff00;
+}
+
+.bg-green {
+  background-color: #7ac943;
+}
+
+.bg-orange {
+  background-color: #ff6600;
+}
+
+.bg-yellow {
+  background-color: #ffcc00;
+}
+
+.bg-teal {
+  background-color: #009999;
+}
+
+.bg-purple {
+  background-color: #8e3f8e;
+}
+
+.bg-cyan {
+  background-color: #0097b2;
+}
+
+.bg-dark-teal {
+  background-color: #006d70;
+}
+
+.text-navy {
+  color: #1a2b4a;
+}
+
+.text-lime {
+  color: #b9ff00;
+}
+
+.text-green {
+  color: #7ac943;
+}
+
+.text-yellow {
+  color: #ffcc00;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.border-lime {
+  border-color: #b9ff00;
+}
+
+.border-yellow {
+  border-color: #ffcc00;
+}
+
+.border-white {
+  border-color: #ffffff;
+}
+
+.border-navy {
+  border-color: #1a2b4a;
+}
+
+.border-green {
+  border-color: #7ac943;
+}
+
+.border-3 {
+  border-width: 3px;
+}
+
+/* Make all text extra bold */
+.font-black {
+  font-weight: 900 !important;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+/* Ensure buttons and interactive elements are pixelated */
+button {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  font-weight: 900 !important;
+}
+
+/* SVG pixel rendering */
+svg {
+  shape-rendering: crispEdges;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Ensure no anti-aliasing on any element */
+div, span, p, h1, h2, h3, h4, h5, h6, a {
+  -webkit-font-smoothing: none !important;
+  font-weight: 900 !important;
+}
+
+/* Link styling */
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Input styling for editing mode */
+input {
+  font-family: 'Press Start 2P', 'Courier New', monospace !important;
+  font-weight: 900 !important;
+  -webkit-font-smoothing: none !important;
+}
+
+input::placeholder {
+  opacity: 0.7;
+}
+
+/* Scrollbar styling for chat */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5dc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a2b4a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #081e30;
+}
