@@ -4,7 +4,7 @@ import LoginScreen from './components/LoginScreen'
 import RegistrationScreen from './components/RegistrationScreen'
 import HomePage from './components/HomePage'
 import CommunityBoard from './components/CommunityBoard'
-import PostDetail from './components/PostDetail'
+import PostDetailModal from './components/PostDetailModal'
 import NewPostModal from './components/NewPostModal'
 import BookmarksPage from './components/BookmarksPage'
 
@@ -284,7 +284,7 @@ function App() {
       
       {/* Post Detail Modal */}
       {selectedPost && (
-        <PostDetail
+        <PostDetailModal
           post={selectedPost}
           onClose={handleClosePostDetail}
           onReaction={handleReaction}
